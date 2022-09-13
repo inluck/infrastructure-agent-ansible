@@ -131,10 +131,3 @@
   with_items: "{{ nrinfragent_integrations }}"
   when: nrinfragent_os_name == 'redhat' or nrinfragent_os_name == 'amazon' and ansible_version.full >= "2.8.0"
 
-- name: install agent (windows)
-  win_chocolatey:
-    name: newrelic-infra
-    state: "{{ nrinfragent_state }}"
-    version: "{{ nrinfragent_choco_version | default(omit) }}"
-  when:
-    - nrinfragent_os_name == 'windows'
