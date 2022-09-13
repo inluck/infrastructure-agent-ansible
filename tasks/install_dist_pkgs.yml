@@ -73,17 +73,6 @@
   when: nrinfragent_os_name == 'redhat' and ansible_distribution|lower != 'amazon'
   register: setup_agent_repo_redhat
 
-- name: setup agent repo reference
-  zypper_repository:
-    name: newrelic-infra
-    description: New Relic Infrastructure Agent
-    repo: "http://download.newrelic.com/infrastructure_agent/linux/zypp/sles/{{ ansible_distribution_version }}/{{ ansible_machine }}/"
-    runrefresh: "yes"
-    auto_import_keys: "yes"
-    disable_gpg_check: "yes"
-  when: nrinfragent_os_name == 'suse'
-  register: infra_agent_zypper_repo
-
 - name: run make cache to actually import gpg key
   command: "yum -q makecache -y --disablerepo='*' --enablerepo='newrelic-infra'"
   when: nrinfragent_os_name == 'redhat' and (setup_agent_repo_amazon.changed or setup_agent_repo_redhat.changed)
